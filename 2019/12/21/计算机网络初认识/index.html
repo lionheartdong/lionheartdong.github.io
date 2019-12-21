@@ -16,7 +16,7 @@
 <meta property="og:description" content="计算机网络第一章 计算机网络和因特网1.一些专有术语及英文缩写 主机host、端系统end system、通信链路、分组交换机 分组packet、传输速率、路由器router、链路层交换机link-layer switch 报文message、分组交换机packet switch 路径route、因特网服务提供商Internet Service Provider（ISP） 协议protocol、传">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-12-21T03:13:32.007Z">
-<meta property="article:modified_time" content="2019-12-21T03:13:32.248Z">
+<meta property="article:modified_time" content="2019-12-21T06:21:31.302Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -236,8 +236,8 @@
 <li>协议层次及其服务类型<ul>
 <li>从航线系统启示，水平的方式分析一个系统的结构，发现：当把整个系统分层次以后，每个层次与其下面的层次结合在一起，实现功能和服务。</li>
 <li>优势在于。改变服务的实现而不影响系统其他组件</li>
-<li>协议分层<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">   	 应用层--&gt;运输层;</span><br><span class="line">       运输层--&gt;网络层</span><br><span class="line">       网络层--&gt;链路层</span><br><span class="line">       链路层--&gt;物理层;</span><br></pre></td></tr></table></figure></li>
-<li>对应的数据格式即封装，例如一个应用层的报文被传送到运输层，在最简单的情况下，运输层收取到报文并附上附加信息，供运输层使用，此时应用层报文和运输层首部一起构成了运输层报文段。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">   	 报文--&gt;报文段;</span><br><span class="line">       报文段--&gt;数据报</span><br><span class="line">       数据报--&gt;帧</span><br><span class="line">       帧--&gt;比特;</span><br></pre></td></tr></table></figure></li>
+<li>协议分层  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">  	应用层--&gt;运输层;</span><br><span class="line">  	运输层--&gt;网络层</span><br><span class="line"> 		网络层--&gt;链路层</span><br><span class="line">  	链路层--&gt;物理层;</span><br></pre></td></tr></table></figure></li>
+<li>对应的数据格式即封装，例如一个应用层的报文被传送到运输层，在最简单的情况下，运输层收取到报文并附上附加信息，供运输层使用，此时应用层报文和运输层首部一起构成了运输层报文段。  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">   	 报文--&gt;报文段;</span><br><span class="line">       报文段--&gt;数据报</span><br><span class="line">       数据报--&gt;帧</span><br><span class="line">       帧--&gt;比特;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li>网络安全<ul>
