@@ -152,6 +152,136 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-应用层之DNS协议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/30/%E5%BA%94%E7%94%A8%E5%B1%82%E4%B9%8BDNS%E5%8D%8F%E8%AE%AE/">应用层之DNS协议</a>
+    </h1>
+  
+
+        
+        <a href="/2019/12/30/%E5%BA%94%E7%94%A8%E5%B1%82%E4%B9%8BDNS%E5%8D%8F%E8%AE%AE/" class="archive-article-date">
+  	<time datetime="2019-12-30T11:18:48.873Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="DNS：目录服务"><a href="#DNS：目录服务" class="headerlink" title="DNS：目录服务"></a>DNS：目录服务</h3><ul>
+<li>引入<ul>
+<li>识别主机的两种方式：主机名或者IP地址</li>
+<li>DNS ，Domain Name System，域名系统</li>
+<li>用于主机名到IP地址的转换服务</li>
+<li>主要组成部分：<ol>
+<li>一个由分层的DNS服务器组成的分布式数据库</li>
+<li>一个让主机能够查询分布式数据库的应用层协议</li>
+</ol>
+</li>
+<li>DNS服务器通常是运行在BIND软件上的Unix机器。</li>
+<li>协议是基于UDP的，端口号为53.</li>
+<li>DNS协议为用户应用程序以及其他软件提供核心服务，将主机名和IP地址进行转换</li>
+<li>DNS协议通常是由其他应用层协议所使用的，把包括HTTP、FTP、SMTP</li>
+<li>DNS协议会为使用其的应用带来额外的时延，会用到缓存</li>
+<li>DNS提供的所有服务：<ol>
+<li>主机名和IP地址转换服务</li>
+<li>主机别名</li>
+<li>邮件服务器别名</li>
+<li>负载分配</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>基本工作机理<ol>
+<li>分布式、层次数据库的设计<ul>
+<li>每台服务器，就其重要程度，可以有多台的冗余的服务器，来提供安全性和可靠性</li>
+<li>三种类型的DNS服务器：<ol>
+<li>根服务器</li>
+<li>顶级域服务器 Top-Level Domain TLD，负责com、org、net以及国家域名uk、fr等</li>
+<li>权威服务器</li>
+</ol>
+</li>
+<li>本地的DNS服务器</li>
+<li>DNS查询方式：<ul>
+<li>从主机到本地服务器查询是递归的</li>
+<li>从本地服务器到其他类型的查询是迭代的</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>DNS缓存<ul>
+<li>本地服务器往往能保存一段时间已查询的的信息</li>
+<li>能缓存TLD服务器的信息，从而绕过对根服务器的查询</li>
+</ul>
+</li>
+<li>DNS的记录和报文<ul>
+<li>DNS服务器提供资源记录RR，每条记录提供了主机名到IP地址的映射</li>
+<li>每个回答报文可能包含多个RR记录</li>
+<li>RR资源记录的格式：<ul>
+<li>（Name，Value，Type，TTL）</li>
+<li>TTL记录生存时间</li>
+</ul>
+</li>
+<li>DNS报文<ul>
+<li>查询报文和回答报文具有同样的格式</li>
+<li>在DNS数据库中添加记录</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="计算机网络：自顶向下方法的应用层未提及知识点"><a href="#计算机网络：自顶向下方法的应用层未提及知识点" class="headerlink" title="计算机网络：自顶向下方法的应用层未提及知识点"></a>计算机网络：自顶向下方法的应用层未提及知识点</h3><ul>
+<li>DNS指针查询，反向查找或者逆向解析</li>
+<li>HTTPS协议：详细握手过程，各种算法：摘要算法、数字签名、数字证书的原理与过程</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/30/%E5%BA%94%E7%94%A8%E5%B1%82%E4%B9%8BDNS%E5%8D%8F%E8%AE%AE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-LeeCode算法笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
