@@ -6,14 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019/12 | Hexo</title>
+  <title>运输层20201.7 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="lionheartdong技术博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2019&#x2F;12&#x2F;index.html">
+  <meta name="description" content="运输层（续） 多路复用与多路分解 即由网络层提供的主机到主机的交付，转移到不同主机的进程到进程的交付服务 接收主机端，并没有直接将数据直接交给进程，而是交付给了中间的套接字，进程具有一个或多个套接字，每个套接字有唯一的标识符 多路分解：将运输层报文段中的数据交付到正确的套接字中 多路复用：从不同套接字中收集数据块，并为每个数据封装上首部信息后，生成报文段，交付到网络层中 多路复用的要求： 每个套接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运输层20201.7">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;07&#x2F;%E8%BF%90%E8%BE%93%E5%B1%8220201.7&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="lionheartdong技术博客">
+<meta property="og:description" content="运输层（续） 多路复用与多路分解 即由网络层提供的主机到主机的交付，转移到不同主机的进程到进程的交付服务 接收主机端，并没有直接将数据直接交给进程，而是交付给了中间的套接字，进程具有一个或多个套接字，每个套接字有唯一的标识符 多路分解：将运输层报文段中的数据交付到正确的套接字中 多路复用：从不同套接字中收集数据块，并为每个数据封装上首部信息后，生成报文段，交付到网络层中 多路复用的要求： 每个套接">
+<meta property="article:published_time" content="2020-01-07T13:17:56.112Z">
+<meta property="article:modified_time" content="2020-01-13T11:19:15.032Z">
 <meta property="article:author" content="Lionheart Dong">
 <meta name="twitter:card" content="summary">
   
@@ -151,184 +153,247 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-运输层20201.7" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      运输层20201.7
+    </h1>
+  
+
+        
+        <a href="/2020/01/07/%E8%BF%90%E8%BE%93%E5%B1%8220201.7/" class="archive-article-date">
+  	<time datetime="2020-01-07T13:17:56.112Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-07</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="运输层（续）"><a href="#运输层（续）" class="headerlink" title="运输层（续）"></a>运输层（续）</h3><ul>
+<li>多路复用与多路分解<ul>
+<li>即由网络层提供的主机到主机的交付，转移到不同主机的进程到进程的交付服务</li>
+<li>接收主机端，并没有直接将数据直接交给进程，而是交付给了中间的套接字，进程具有一个或多个套接字，每个套接字有唯一的标识符</li>
+<li>多路分解：将运输层报文段中的数据交付到正确的套接字中</li>
+<li>多路复用：从不同套接字中收集数据块，并为每个数据封装上首部信息后，生成报文段，交付到网络层中</li>
+<li>多路复用的要求：<ol>
+<li>每个套接字具有唯一的标识符</li>
+<li>每个报文段具有特殊字段指示该报文段所要交付到的套接字</li>
+<li>特殊字段包括：源端口号字段、目的端口号字段<ul>
+<li>端口号：16bit数，在0~65535之间</li>
+<li>周知端口号：0-1023，受限制，http使用80端口号，ftp使用21端口号</li>
+<li>一个新的应用程序必须有对应的端口号</li>
+<li>UDP套接字由二元组进行标识：目的IP地址和目的端口号；无连接的</li>
+<li>TCP套接字由四元组进行标识：源IP地址和源端口号，目的IP地址和目的端口号；面向连接的</li>
+<li>连接套接字与进程之间并非总是有着一一对应的关系</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>UDP<ul>
+<li>服务模型：不提供不必要服务</li>
+<li>提供运输层最低限度的服务：即复用/分解服务，负责在网络层和正确的应用进程之间传递数据，还有少量的差错监测</li>
+<li>DNS是运用UDP运输协议的最常见案例</li>
+<li>UDP协议的优点：<ol>
+<li>关于何时、发送什么数据的应用层控制更为精细</li>
+<li>无需连接控制</li>
+<li>无连接状态</li>
+<li>分组首部开销小，TCP有20字节的首部开销，UDP仅有8字节的开销</li>
+</ol>
+</li>
+<li>使用UDP的应用是可以实现可靠数据传输的，需要应用程序自身建立可靠性机制</li>
+<li>UDP报文结构：<ol>
+<li>由首部和应用层数据构成</li>
+<li>首部含有4个字段：<ul>
+<li>每个字段包含2个字节</li>
+<li>源端口号，目的端口号，端口号执行分解功能</li>
+<li>长度字段，指示UDP报文段中的字节总数，包括首部和数据</li>
+<li>检验和，接收方检验是否报文段出现差错</li>
+</ul>
+</li>
+<li>UDP在端到端基础上在运输层提供差错检测，即端到端原则</li>
+<li>提供差错检测，但不提供恢复</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>可靠数据传输原理<ul>
+<li>服务抽象：为上层实体提供一条可靠的数据传输信道进行传输，即可靠数据传输协议</li>
+<li>可靠数据传输不仅在运输层，也在链路层、应用层出现</li>
+<li>可靠数据传输协议的下层协议也许是不可靠的，比如运输层</li>
+<li><strong>开发任何协议的第一步往往是选个好名字！</strong></li>
+<li>基于重传机制的可靠数据传输协议 自动重传请求 Automatic Repeat reQuest, ARQ<ul>
+<li>肯定确认 positive acknowledgement, <strong>ACK</strong>，用1表示</li>
+<li>否定确认 negative acknowledgement, <strong>NAK</strong>,用0表示</li>
+<li>ARQ包括：差错检测、接收方反馈、重传</li>
+</ul>
+</li>
+<li>考虑ACK,NAK分组受损的可能性：<ul>
+<li>解决之道在于：当不知道其分组是否受损时，直接重新发送分组，但在刚开始发送分组之前应对所有分组进行编号，即将数据分组的序号（sequence number）放在该字段</li>
+<li>重新发送的分组称为冗余分组 duplicate packet</li>
+</ul>
+</li>
+<li>发送方负责检测和恢复丢包工作<ul>
+<li>发送方至少需要等待：发送方与接受方之间的一个往返时延，这其中包括路由器等的缓冲，加上接受方处理一个分组所需要的时间</li>
+<li>超过等待时间，则认为分组已经丢包，重传分组，这可能会产生冗余数据分组，但通过ACK或者NAK分组中的序号可以解决</li>
+<li>基于时间的重传，需要一个倒计时定时器countdown timer</li>
+<li>发送方的主要动作是每次发送一个分组，便启动一个计时器；响应计时器中断；终止计时器</li>
+</ul>
+</li>
+<li>可靠数据传输协议最初从停等协议出发，再发送一个分组，知道确认后，再发送下一个分组，利用率低，由此引入流水线技术</li>
+<li>流水线技术：<ol>
+<li>增加序号范围，因为序号再发送中的唯一性</li>
+<li>协议的发送方和接收方需要缓存多个分组</li>
+<li>所需序号范围和对缓冲的要求取决于数据传输协议如何处理丢失、损坏及延时过大的分组。</li>
+<li>流水线技术中解决差错恢复有两种方法：回退N步，Go-Back-N，GBN；选择重传，Selective Repeat，SR</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/30/%E5%BA%94%E7%94%A8%E5%B1%82%E4%B9%8BDNS%E5%8D%8F%E8%AE%AE/" class="archive-article-date">
-  	<time datetime="2019-12-30T11:18:48.873Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/30/%E5%BA%94%E7%94%A8%E5%B1%82%E4%B9%8BDNS%E5%8D%8F%E8%AE%AE/">应用层之DNS协议</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/01/07/%E8%BF%90%E8%BE%93%E5%B1%8220201.7/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/24/LeeCode%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2019-12-24T13:55:55.200Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-24</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/01/13/%E8%BF%90%E8%BE%93%E5%B1%822020.1.13/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          运输层2020.1.13
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/01/03/%E8%BF%90%E8%BE%93%E5%B1%822020.1.3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">运输层2020.1.3</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/24/LeeCode%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">LeeCode算法笔记</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/24/%E5%BA%94%E7%94%A8%E5%B1%82/" class="archive-article-date">
-  	<time datetime="2019-12-24T01:03:05.055Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/24/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%88%9D%E8%AE%A4%E8%AF%86/" class="archive-article-date">
-  	<time datetime="2019-12-21T03:13:32.007Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/21/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%88%9D%E8%AE%A4%E8%AF%86/">计算机网络初认识</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2019-12-18T13:04:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/">我的第一篇博客文章</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-12-18T12:58:41.991Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -351,8 +416,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -8,12 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="lionheartdong技术博客">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="og:description" content="lionheartdong技术博客">
+<meta property="article:author" content="Lionheart Dong">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -46,7 +47,7 @@
 			<img src="" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		  <h1 class="header-author"><a href="/">Lionheart Dong</a></h1>
 		</hgroup>
 		
 
@@ -104,7 +105,7 @@
 				<img src="" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">John Doe</h1>
+			  <h1 class="header-author js-header-author">Lionheart Dong</h1>
 			</hgroup>
 			
 			
@@ -151,6 +152,655 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-运输层20201.15" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/15/%E8%BF%90%E8%BE%93%E5%B1%8220201.15/">运输层20201.15</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/15/%E8%BF%90%E8%BE%93%E5%B1%8220201.15/" class="archive-article-date">
+  	<time datetime="2020-01-15T02:38:48.882Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###运输层-续</p>
+<ul>
+<li>TCP的公平性<ul>
+<li>考虑多条TCP连接在瓶颈链路中传输时的情况</li>
+<li>瓶颈链路：对于每条连接，沿着该连接路径上的所有其他段链路都不拥塞，而且与该瓶颈链路的传输容量相比，他们都具有充足的传输容量</li>
+<li>如果每条连接都能得到相同份额的链路带宽，则认为该拥塞控制机制是公平的</li>
+<li>实践中，对于多条TCP连接共享一个共同的瓶颈链路时，具有较小RTT的连接能够在链路空闲时更快地抢到更多的可用带宽，因而比具有较大RTT的连接享有更多的吞吐量</li>
+<li>UDP由于没有拥塞控制机制，往往能压制TCP流量</li>
+<li>TCP可以通过使用多个并行连接的方式，抢占链路带宽，Web浏览器就是个例子</li>
+</ul>
+</li>
+</ul>
+<p>###网络层</p>
+<ul>
+<li>进入网络核心，网络边缘所包括运输层、应用层</li>
+<li>网络中，每个主机和路由器都有一个网络层部分</li>
+<li>转发和路由选择的区别：<ul>
+<li>转发：分组在单一的路由器中从一条入链路到一条出链路的传送</li>
+<li>路由选择：在一个网络中的所有路由器，经路由选择协议共同交互，以决定分组从源到目的地结点所采用的路径</li>
+</ul>
+</li>
+</ul>
+<p>####1. 网络层基础</p>
+<ul>
+<li>路由器：<ul>
+<li>主要作用：将数据报从入链路转发到出链路</li>
+<li>路由器具有截断的协议栈，即没有网络层以上的部分，代表不运行运输层、应用层的协议</li>
+<li>每台路由器均有一个转发表，路由器通过检查到达分组首部字段的值，来转发分组，然后使用该值在转发表中索引查询，存储在转发表中该首部的值指出该分组经过路由器的输出链路接口。分组首部中的该值可能是该分组的目的地址或该分组所属连接的指示</li>
+</ul>
+</li>
+<li>网络层的主要功能是将数据报从一个主机移动到另一个主机，由此带来了两个重要的网络层功能：<ul>
+<li>转发：路由器进行操作</li>
+<li>路由选择：网络层的路由选择算法，选择合理路径</li>
+</ul>
+</li>
+<li>路由选择算法决定插入路由器的转发表中的值，路由器接收路由选择协议报文，该信息被用于配置转发表</li>
+<li>分组交换机：一台通用分组交换设备，根据分组首部字段中的值，从输入链路接口到输出链路接口转移分组<ul>
+<li>链路层交换机：基于链路层首部字段中的值做转发决定</li>
+<li>路由器：基于网络层首部字段中的值做转发决定</li>
+</ul>
+</li>
+<li>网络层的第三种功能：连接建立；对于特定的网络体系结构：ATM/MPLS/帧中继等</li>
+<li>网络层服务模型：<ul>
+<li>网络服务模型：分组在发送与接收端系统之间的端到端运输特性</li>
+<li>网络层提供服务类型：<ol>
+<li>确保交付</li>
+<li>具有时延上限的确保交付</li>
+<li>有序分组交付</li>
+<li>确保最大时延抖动</li>
+<li>安全性服务</li>
+</ol>
+</li>
+<li>因特网的网络层服务模型：尽力而为服务，根本<strong>无服务</strong>的委婉说法</li>
+</ul>
+</li>
+<li>网络层的是否面向连接<ul>
+<li>仅在网络层提供连接服务的网络为虚电报网络，比如ATM/MPLS/帧中继</li>
+<li>仅在网络层提供无连接服务的网络为数据报网络，比如因特网</li>
+<li>与运输层面向连接的区别<ul>
+<li>运输层面向连接是在网络边缘的端系统中实现</li>
+<li>网络层则不仅在端系统也在网络核心的路由器中实现</li>
+</ul>
+</li>
+<li>数据报网络中，分组的转发：每台路由器有一个将目的地址映射到链路接口的转发表，当分组到达路由器时，路由器使用其目的地址在转发表中索引适当的输出链路</li>
+</ul>
+</li>
+<li>路由器在根据目的地址索引输出链路时，若有多个匹配，使用最长前缀匹配规则，即在转发表中寻找最长的匹配项，并向与最长前缀相关联的链路接口转发分组</li>
+<li>数据报网络中的路由器的转发表修改是通过路由选择算法进行修改的，通常需要1-5分钟更新一次转发表</li>
+</ul>
+<p>####2. 路由器工作原理</p>
+<ul>
+<li>路由器的组成：<ol>
+<li>输入端口：将一条输入的物理链路与路由器相连接的物理层功能；与位于入链路远端的数据链路层交互的数据链路层功能；查找功能路由器通过查询转发表确定输出端口</li>
+<li>交换结构：将输入端口与输出端口相连，网络路由器中的网络</li>
+<li>输出端口：存储从交换结构收到的分组，并通过执行必要的数据链路层和物理层功能在输入链路上传输分组</li>
+<li>路由选择处理器：执行路由选择协议，维护路由转发表以及连接的链路状态信息，并未路由器计算转发表</li>
+<li>输入端口、输出端口、交换结构用硬件实现了转发功能，称为路由器转发平面，而路由控制平面通常在软件实现后在路由选择处理器上执行</li>
+</ol>
+</li>
+<li>输入端口：<ol>
+<li>转发表是由路由选择处理器计算和更新的，但会将一份副本存放在每个输入端口，避免集中式处理的瓶颈</li>
+<li>除了进行查找操作以外：<ul>
+<li>必须出现物理层和链路层处理</li>
+<li>必须检查分组的版本号、检验和和寿命字段</li>
+<li>必须更新用于网络管理的计数器</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>交换结构<ul>
+<li>路由器的核心部位</li>
+<li>交换方式：<ul>
+<li>经内存交换，最简单、最早的路由器就是计算机</li>
+<li>经总线交换</li>
+<li>经互联网络交换</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>输出端口<ul>
+<li>选择和取出排队的分组进行传输，执行所需的链路层和物理层功能</li>
+</ul>
+</li>
+<li>排队现象<ul>
+<li>当路由器的缓存耗尽，导致对于新到达的分组没有内存可用于存储时，将分组丢失的丢包现象</li>
+<li>排队的位置和程度取决于流量负载、交换结构的相对速率和线路速率</li>
+</ul>
+</li>
+<li>路由选择控制平面<ul>
+<li>网络范围的路由选择控制平面为分布式的，即不同部分（例如路由选择算法）执行在不同的路由器上并且通过彼此发送控制报文进行交互</li>
+</ul>
+</li>
+</ul>
+<p>####3. 网络协议即IP协议：因特网中的转发和编址</p>
+<ul>
+<li>目前使用的IP版本有两个：IPv4、IPv6,4和6代表版本</li>
+<li>因特网中网络层的三个组件：<ol>
+<li>IP协议</li>
+<li>路由选择部分</li>
+<li>报告数据报中的差错和对某些网络层信息请求进行响应的设施，相关协议是ICMP协议，因特网报文控制协议</li>
+</ol>
+</li>
+<li>网络层分组称为数据报，总的来说，一个IP数据报有总长为20字节的首部，在无选项的情况下，当此数据报承载一个TCP报文段是，每个无分片的数据报共承载了40字节的首部以及应用层报文，IP数据报包含首部和数据，主要格式和字段有：<ol>
+<li>版本号：4 bit 定义IP协议版本</li>
+<li>首部长度：4 bit ，指示IP数据报中数据部分实际从哪里开始，定义当加入选项部分时，数据报首部长度会变化，通常IP不含选项部分时，为20字节</li>
+<li>服务类型： TOS bit</li>
+<li>数据报长度：16 bit IP数据报的总长度，含首部加数据，以字节为单位，理论最大长度是65535字节，但实际中很少有超过1500字节</li>
+<li>标识、标志、片偏移：三个与IP分片相关的字段，新版本IPv6 不允许在路由器上对分组分片</li>
+<li>寿命TTL：字段用于确保数据报不会永远在网络中循环，当数据报每经过一个路由器处理时，该字段减1，直到0时，此字段被抛弃</li>
+<li>协议：在数据报抵达最终目的地时使用，指示IP数据报的数据部分应交给哪个特定的运输层协议，值为6，交给TCP，值为17，交给UDP；协议号是将网络层和运输层绑定在一起的粘合剂，端口号是运输层和应用层绑定在一起的粘合剂，链路层中也有特殊字段将链路层与网络层绑定在一起</li>
+<li>首部检验和：帮助路由器检测收到的IP数据报的首部的bit错误，路由器会丢弃错误的数据报。为什么TCP/IP在网络层和运输层都执行差错检测？原因在于，IP层只对IP首部计算检验和，而TCP、UDP检验和是对整个TCP、UDP报文段进行；其次TCP、UDP与IP不一定同属一一个协议栈，原则上TCP可以运行在一个不同的协议如ATM上，而IP能够携带不一定一定要传递给TCP、UDP的数据</li>
+<li>源和目的的IP地址：源主机通过DNS查找确定目的主机的IP地址</li>
+<li>选项：允许首部扩展，但在IPv6中去掉了选项</li>
+<li>数据：包含交付给目的主机的运输层报文段，也可承载其他类型的数据，比如ICMP报文</li>
+</ol>
+</li>
+<li>IP数据报分片<ul>
+<li>为什么要分片：<ol>
+<li>并不是所有链路层协议都能承载相同长度的网络层分组，有的协议能承载大数据报，有的协议只能承载小分组</li>
+<li>比如以太网帧能够承载不超过1500字节的数据，某些广域网链路帧不能超过576字节的数据</li>
+<li>一个链路层帧能承载的最大数据量叫做最大传送单元，MTU，IP数据报封装在链路层帧中从一台路由器传输到下一台路由器</li>
+<li>MTU严格限制IP数据报的长度，但不是分片主要原因</li>
+<li>发送主机与目的主机之间的路径上的每条链路可能使用不同的链路层协议，且每种协议中有着不同的MTU</li>
+</ol>
+</li>
+<li>当链路层的MTU比IP数据报的长度小时，需要进行分片</li>
+<li>IPv4的设计者将数据报的重新组装工作放到端系统中，而不是放在网络路由器中</li>
+<li>IPv4的设计者将<strong>标识、标志和片偏移</strong>字段放在数据报首部，指导重新组装任务，具体流程：<ol>
+<li>当生成一个数据报时，发送主机在为该数据报设置源和目的地址的同时再贴上标识号；</li>
+<li>发送主机通常将为它发送的每个数据报的标识号加1；</li>
+<li>当某路由器需要对一个数据报分片时，形成的每个数据报（即片）具有初始数据报的源地址、目的地址与标识号；</li>
+<li>当目的地从同一发送主机收到一系列数据报时，能够检查数据报的标识号以确定哪些数据报实际上是同一较大数据报的片；</li>
+<li>为了应对已分成片的数据报可能没有被目的主机收到的情况，为了让目的主机绝对地相信已收到初始数据报的最后一个片，最后一个片的标志 bit 置为0，而所有其他片的标志 bit 置为1；</li>
+<li>为了让目的主机确定是否丢失了一个片，使用偏移字段指定该片应放在初始IP数据报的哪个位置，用字节量表示；</li>
+<li>标识号：确定分片是来自同一个数据报，标志确定一个数据报的所有分片是否全部收到，偏移确定每个分片在初始数据报中的位置；</li>
+<li>在目的地，数据报的有效载荷即数据部分仅当在IP层已完全重构为初始IP数据报时，才会提交到运输层，若有一个片或者多个片丢失，则整个数据报被丢弃不会被提交到运输层；</li>
+<li>IPv6从根本上废止了分片，简化了IP分组的处理，使得IP不太容易受到攻击。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>IPv4的编址<ul>
+<li>接口：主机与物理链路之间的边界或者路由器与它的任意一条链路之间的边界</li>
+<li>由于每台主机和路由器都能发送和接收IP数据报，因此IP协议要求<strong>每台主机和路由器接口</strong>有自己的IP地址。</li>
+<li>IP地址技术是与一个<strong>接口</strong>相关联的，而不是和<strong>每台主机或者路由器</strong>相关联的。</li>
+<li>IP地址长度为 32 bit，按照点分十进制记法，例如192.168.1.1</li>
+<li>IP协议要求全球因特网中的每台主机和路由器的每个接口，具有全球唯一的IP地址，除了NAT后面的接口</li>
+<li>将几个主机接口与一个路由器接口的网络叫做子网，类似223.1.1.0/24,其中/24的记法表示前24 bit 相同，这种记法称为子网掩码</li>
+<li>因特网的地址分配策略称为无类别域间路由选择 CIDR ，针对子网寻址，32 bit 的IP地址被划分为两部分，具有点分十进制形式a.b.c.d/x,其中x指示第一部分中子网相同的bit 数，也称为地址的前缀，IP地址的网络部分，利用前缀可有效减少路由器中转发表的长度</li>
+<li>在CIDR被采用之前，IP得知的网络部分被限制为8、16、24 bit，分类编址的编址方案，分别称为A、 B、 C类网络</li>
+<li>通用的IP广播地址 255.255.255.255，当一台主机向广播地址发送数据报时，该报文会发送至同一个网络中的所有主机，路由器也会有选择地向邻近的子网转发该报文，通常不会设置为这样</li>
+<li>一个设备获取一个地址的流程：<ol>
+<li>获取一块地址：<ul>
+<li>从ISP获得一块地址</li>
+<li>全球性的权威组织，IP地址由因特网名字和编号分配机构 ICANN 管理，同时此组织还管理DNS根服务器，分配域名与解决域名纷争</li>
+<li>ICANN 向区域性因特网注册机构分配地址，一起形成ICANN 的地址支持组织，处理本地域内的地址分配/管理</li>
+</ul>
+</li>
+<li>获取主机地址：动态主机配置协议<ul>
+<li>系统管理员通常手工配置路由器中的IP地址，在远程通过网络管理工具进行配置，主机地址也可手动配置，目前以使用动态主机配置协议 DHCP 完成</li>
+<li>DHCP允许主机自动获取一个IP地址，网络管理员能够配置DHCP，以使某给定主机每次与网络连接时能得到一个相同的iP地址，或者某主机被配置成一个临时的IP地址，临时地址每次连接时均不同</li>
+<li>DHCP允许一台主机得知其他主机信息，比如子网掩码、第一跳路由器地址即默认网关、本地DNS服务器地址</li>
+<li>DHCP自动将一台主机连入网络，称为即插即用协议；也是客户-服务器协议</li>
+<li>如果在某子网中没有服务器，需要一个DHCP的中继代理，通常为一个路由器，中继代理知道DHCP的服务器地址</li>
+<li>DHCP运行步骤：<ol>
+<li>DHCP服务器发现：新到的客户主机发送一个UDP分组-DHCP发现报文-给广播地址255.255.255.255</li>
+<li>DHCP服务器提供：服务器使用广播地址255.255.255.255发送DHCP提供报文予以回应，里面包括：发现报文的事务ID、向客户推荐的IP地址、网络掩码以及IP地址租用期，服务器租用期通常设置为几小时或者几天</li>
+<li>DHCP请求：客户机向服务器提供DHCP请求报文进行响应，回显配置参数</li>
+<li>DHCP ACK：DHCP ACK报文对请求报文进行响应，证实参数</li>
+</ol>
+</li>
+<li>DHCP还提供机制为客户更新对IP地址的租用</li>
+<li>不足：当一个移动结点在子网之间移动时，不能维持与远程应用之间的TCP连接</li>
+</ul>
+</li>
+<li>网络地址转换：<ul>
+<li>网络地址转换 NAT </li>
+<li>具有专有地址的地域是指其地址仅对该网络中的设备有意义的网络</li>
+<li>NAT路由器对外界的行为如同一个具有单一IP地址的单一设备</li>
+<li>NAT使能路由器对外界隐藏家庭网络的细节</li>
+<li>NAT路由器中有一张NAT转发表，在表中包含端口号及其IP地址</li>
+<li>NAT的反对：<ol>
+<li>端口号是用于进程编址，不是用于主机编址</li>
+<li>路由器仅当处理高达第三层的分组</li>
+<li>NAT协议违反端到端原则，即主机之间彼此相互直接对话，结点不应接入修改IP地址与端口号</li>
+<li>应使用IPv6解决IP地址短缺问题</li>
+</ol>
+</li>
+<li>NAT已成为因特网的一个重要组件</li>
+<li>NAT妨碍P2P应用程序</li>
+</ul>
+</li>
+<li>UPnP<ul>
+<li>通用即插即用</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/01/15/%E8%BF%90%E8%BE%93%E5%B1%8220201.15/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-运输层2020.1.13" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/13/%E8%BF%90%E8%BE%93%E5%B1%822020.1.13/">运输层2020.1.13</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/13/%E8%BF%90%E8%BE%93%E5%B1%822020.1.13/" class="archive-article-date">
+  	<time datetime="2020-01-13T13:22:32.742Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="运输层"><a href="#运输层" class="headerlink" title="运输层"></a>运输层</h3><ul>
+<li>可靠数据传输协议之解决差错恢复<ul>
+<li>回退N步 GBN 协议<ol>
+<li>允许发送方发送多个分组，而不需要等待确认，未确认的分组数不能超过最大允许数N</li>
+<li>N称为窗口长度，分组序号在首部的一个固定长度的字段中，TCP有一个32bit的序号字段，TCP序号是按照字节流中的字节进行计数的</li>
+<li>接收方使用累计确认，并且会丢弃所有失序分组</li>
+<li>缺点在于当一个正确顺序的分组丢失时，由于这个分组的重传也可能丢失或出错，需要重传更多的分组</li>
+</ol>
+</li>
+<li>可靠数据传输所涉及到的所有技术：使用序号、累计确认、检验和以及超时/重传操作</li>
+<li>选择重传 SR 协议<ol>
+<li>让发送方仅重传那些怀疑在接收方出错的分组，避免不必要的重传</li>
+<li>对于SR协议，窗口长度必须小于或等于序号空间的一半</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><ul>
+<li>面向连接的传输：TCP<ul>
+<li>TCP协议仅在端系统中运行，而不在中间的网络单元比如路由器或链路交换机中运行</li>
+<li>提供全双工服务，连接总是点对点的</li>
+<li>TCP可从缓存中取出并放入报文段中的数据量受限于最大报文段长度 Maximum Segment Size MSS</li>
+<li>MSS 通常由本地发送主机的最大链路层帧长度来设置即 最大处输单元 MAximum Transmission Unit MTU</li>
+<li>设置该MSS要保证一个TCP报文段加上TCP/IP首部长度 通常为40字节 将适合单个链路层帧</li>
+<li>以太网和PPP链路层协议都具有1500字节的MTU，因此MSS的典型值为1460字节</li>
+<li>MSS是指在报文段里应用层数据的最大长度，而不是包括TCP首部的TCP报文段的最大长度</li>
+</ul>
+</li>
+<li>TCP报文段<ul>
+<li>首部字段和数据字段组成</li>
+<li>TCP的首部一般有20字节</li>
+<li>主要构成;<ol>
+<li>源端口号和目的端口号</li>
+<li>序号字段，检验和字段，确认字段，</li>
+<li>接受窗口字段，用于流量控制</li>
+<li>首部长度字段，选项字段</li>
+<li>标志字段：<ol>
+<li>ACK bit 用于指示确认字段中的值是有效地</li>
+<li>RST、SYN、FIN bit 用于连接和拆除</li>
+<li>PSH bit 指示接收方应立即将数据交给上层</li>
+<li>URG bit 指示报文段里存在被发送端实体置为”紧急“的数据</li>
+</ol>
+</li>
+<li>首部中最重要的字段是序号字段和确认字段<ul>
+<li>TCP将数据看成是无结构、有序的字节流</li>
+<li>每个报文段的序号是该报文段首字节的字节流编号</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>往返时间的估计与超时<ul>
+<li>超时间隔长度的设置</li>
+</ul>
+</li>
+<li>TCP的可靠数据传输<ul>
+<li>目标：确保一个进程从其接收缓存中读出的数据流是无损坏、无间隔、非冗余和按序的数据流</li>
+<li>TCP提供累计确认</li>
+<li>每次TCP重传时都会使下一次的超时间间隔设为先前值的两倍</li>
+<li>快速重传机制<ul>
+<li>TCP不会允许接收方未收到的分组一直处于重传的状态，因为每次重传时会将定时器的超时间隔扩大两倍</li>
+<li>引入冗余ACK，冗余ACK的产生主要是因为接收方未收到所期待的序号时，接收方将发送最后一个有序分组的序号的确认ACK给发送方，提示下一个应该发送的分组，当发送方收到3个冗余ACK时，触发快速重传机制</li>
+<li>快速重传机制目标在于在该报文段的定时器过期之前重传丢失的报文段</li>
+</ul>
+</li>
+<li>TCP重传是基于GBN还是SR<ul>
+<li>TCP采用选择确认的机制，即有选择地确认已正确接收，但失序的分组，而不是累计确认最后一个到达正确有序的分组</li>
+<li>GBN与SR协议的结合体</li>
+<li>选择确认与选择重传机制相结合</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>TCP的流量控制<ul>
+<li>TCP的发送方和接收方都具有缓存，流量控制服务的目标在于使得接收方的缓存不溢出，使得发送速率与接受速率相匹配</li>
+<li>而对于IP网络的拥塞造成的TCP发送方的发送速率被遏制，对于发送方的控制成为拥塞控制</li>
+<li>接收窗口：发送方所维护的一个变量，指示接收方有多少缓存可用</li>
+<li>UDP不提供流量控制服务，因此接收方往往会因缓存移除而丢失报文</li>
+</ul>
+</li>
+<li>TCP的连接管理<ul>
+<li>连接建立步骤–<strong>三次握手</strong>：<ol>
+<li>客户端的TCP首先向服务器端的TCP发送一个特殊的TCP报文段。该报文段不包含应用层数据，但在报文段首部的SYN bit 标志位置为1，客户还会随机选择一个初始序号cilent_isn；</li>
+<li>当此报文段到达服务器主机，服务器提取出TCP SYN 报文段，为该TCP连接分配TCP缓存和变量，并向该客户TCP发送允许连接的报文段，该允许连接的报文段被称为SYNACK报文段,也不包含应用层数据，SYN bit被置为1，首部确认号字段被置为cilent_isn+1，自己的初始序号为server_isn；</li>
+<li>在收到SYNACK报文段后，客户为该连接分配缓存和变量，客户主机向服务器发送另外一个报文段，用于对服务器允许连接的报文段进行确认，通过将首部确认字号段设为server_isn+1，SYN bit置为0，此时连接建立，可在报文段负载中携带客户到服务器的数据。</li>
+</ol>
+</li>
+</ul>
+<ul>
+<li>SYN bit 在以后发送数据的所有报文段的字段都被置为0</li>
+<li>关闭连接–<strong>四次挥手</strong>：<ol>
+<li>客户应用进程发出关闭连接的命令，使得客户主机向服务器发送一个特殊的报文段，报文段中的首部字段的FIN bit 被置为1；</li>
+<li>服务器收到此报文段后，向发送方客户回送一个确认报文段；</li>
+<li>服务器再向客户主机发送自己的终止报文段，FIN bit 被置为1；</li>
+<li>最后客户端对服务器的终止报文段进行回复一个确认报文段，此时连接上的所有资源包括缓存等全部被释放，TCP连接被关闭。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>拥塞控制原理<ul>
+<li>实践中，丢包是当网络变得拥塞时由于路由器缓存溢出造成的</li>
+<li>分组重传作为网络拥塞的前兆，需要机制在网络拥塞时对发送方进行控制</li>
+<li>拥塞产生代价：<ol>
+<li>代价1：当分组的到达速率接近链路容量时，分组经历巨大的排队时延；</li>
+<li>代价2：发送方必须执行重传来补偿因为缓存溢出而丢弃或者丢失的分组；</li>
+<li>代价3：发送方在遇到比较大的时延时，所进行的不必要重传会引起路由器利用其链路带宽转发不必要的分组副本；</li>
+<li>代价4：当一个分组沿一条路径被丢弃时，每个上游路由器用于转发该分组到丢弃该分组而使用的传输容量最终被浪费掉了。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>拥塞控制方法<ul>
+<li>根据网络层是否为运输层提供显式帮助来区分方法：<ol>
+<li>没有提供。端到端拥塞控制，TCP所采用</li>
+<li>有。网络辅助的拥塞控制</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>TCP拥塞控制<ul>
+<li>主要方法：由于拥塞控制是针对TCP发送方的控制，因此是让每一个发送方根据多感知到的网络拥塞程度来限制其能向连接发送流量的速率</li>
+<li>首先在发送方中设立额外的变量，拥塞窗口，cwnd，在发送方中未被确认的数据量不能超过拥塞窗口与接收窗口值的最小值，间接控制发送速率；</li>
+<li>发送方感知拥塞：<ol>
+<li>丢包事件在发送方的定义为：出现超时或者收到3个冗余ACK；</li>
+<li>丢包事件产生预示着拥塞产生</li>
+<li>反之当发送方正确收到确认时，代表网络不拥塞，拥塞窗口会增加，即增加发送速率，因此TCP用确认来触发增大拥塞窗口长度，即自计时的</li>
+<li>带宽监测机制，协同确认ACK和丢包事件，控制传输速率</li>
+</ol>
+</li>
+<li>TCP拥塞控制算法<ul>
+<li>由慢启动，拥塞避免，快速恢复组成；</li>
+<li>慢启动和拥塞避免是强制部分，慢启动比拥塞避免能更快的增加拥塞窗口长度；快速恢复是推荐部分，对于TCP发送方不必要；</li>
+<li>慢启动：<ol>
+<li>TCP连接开始时，初始cwnd被设置为MSS的最小值，每当传输的一个报文段首次被确认就cwnd增加一个MSS；</li>
+<li>发送速率初始慢，以指数增长；</li>
+<li>结束增长事件：超时引起的丢包事件，TCP将cwnd置为1，慢启动阈值ssthresh设为cwnd/2，重启慢启动；达到慢启动阈值，结束慢启动，TCP转到拥塞避免模式；3个冗余ACK事件，TCP先执行快速重传，并进入快速恢复状态；</li>
+</ol>
+</li>
+<li>拥塞避免：<ul>
+<li>每个RTT只将cwnd增加一个MSS，无论TCP发送方同时到达几个确认</li>
+<li>结束增长事件：超时事件，cwnd置为1个MSS，慢启动阈值ssthresh设为cwnd/2；3个冗余ACK事件，cwnd的值减半，同时加上3个冗余ACK的MSS，将慢启动阈值ssthresh设为cwnd/2</li>
+</ul>
+</li>
+<li>快速恢复<ul>
+<li>目标类似于快速重传，为了尽快得到引起TCP进入快速恢复状态的报文段，对收到每一个冗余ACK，cwnd增加一个MSS</li>
+<li>当丢失报文段的ACK抵达时，TCP降低cwnd后进入拥塞避免状态</li>
+<li>超时事件，快速恢复在执行如同在慢启动和拥塞避免中相同的动作后，迁移到慢启动状态：丢包，cwnd置为1个MSS，慢启动阈值ssthresh设为cwnd/2</li>
+<li>快速恢复为TCP推荐而非必需的构件</li>
+</ul>
+</li>
+<li>TCP拥塞控制总结：当丢包是由3个冗余ACK引起时，TCP总是每个RTT内cwnd线性增加1MSS，然后出现3个冗余ACK时，cwnd减半</li>
+<li>拥塞控制概括为加性增、乘性减 Additive-Increase，Multipicative-Decrease，AIMD</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/01/13/%E8%BF%90%E8%BE%93%E5%B1%822020.1.13/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-运输层20201.7" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/07/%E8%BF%90%E8%BE%93%E5%B1%8220201.7/">运输层20201.7</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/07/%E8%BF%90%E8%BE%93%E5%B1%8220201.7/" class="archive-article-date">
+  	<time datetime="2020-01-07T13:17:56.112Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="运输层（续）"><a href="#运输层（续）" class="headerlink" title="运输层（续）"></a>运输层（续）</h3><ul>
+<li>多路复用与多路分解<ul>
+<li>即由网络层提供的主机到主机的交付，转移到不同主机的进程到进程的交付服务</li>
+<li>接收主机端，并没有直接将数据直接交给进程，而是交付给了中间的套接字，进程具有一个或多个套接字，每个套接字有唯一的标识符</li>
+<li>多路分解：将运输层报文段中的数据交付到正确的套接字中</li>
+<li>多路复用：从不同套接字中收集数据块，并为每个数据封装上首部信息后，生成报文段，交付到网络层中</li>
+<li>多路复用的要求：<ol>
+<li>每个套接字具有唯一的标识符</li>
+<li>每个报文段具有特殊字段指示该报文段所要交付到的套接字</li>
+<li>特殊字段包括：源端口号字段、目的端口号字段<ul>
+<li>端口号：16bit数，在0~65535之间</li>
+<li>周知端口号：0-1023，受限制，http使用80端口号，ftp使用21端口号</li>
+<li>一个新的应用程序必须有对应的端口号</li>
+<li>UDP套接字由二元组进行标识：目的IP地址和目的端口号；无连接的</li>
+<li>TCP套接字由四元组进行标识：源IP地址和源端口号，目的IP地址和目的端口号；面向连接的</li>
+<li>连接套接字与进程之间并非总是有着一一对应的关系</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>UDP<ul>
+<li>服务模型：不提供不必要服务</li>
+<li>提供运输层最低限度的服务：即复用/分解服务，负责在网络层和正确的应用进程之间传递数据，还有少量的差错监测</li>
+<li>DNS是运用UDP运输协议的最常见案例</li>
+<li>UDP协议的优点：<ol>
+<li>关于何时、发送什么数据的应用层控制更为精细</li>
+<li>无需连接控制</li>
+<li>无连接状态</li>
+<li>分组首部开销小，TCP有20字节的首部开销，UDP仅有8字节的开销</li>
+</ol>
+</li>
+<li>使用UDP的应用是可以实现可靠数据传输的，需要应用程序自身建立可靠性机制</li>
+<li>UDP报文结构：<ol>
+<li>由首部和应用层数据构成</li>
+<li>首部含有4个字段：<ul>
+<li>每个字段包含2个字节</li>
+<li>源端口号，目的端口号，端口号执行分解功能</li>
+<li>长度字段，指示UDP报文段中的字节总数，包括首部和数据</li>
+<li>检验和，接收方检验是否报文段出现差错</li>
+</ul>
+</li>
+<li>UDP在端到端基础上在运输层提供差错检测，即端到端原则</li>
+<li>提供差错检测，但不提供恢复</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>可靠数据传输原理<ul>
+<li>服务抽象：为上层实体提供一条可靠的数据传输信道进行传输，即可靠数据传输协议</li>
+<li>可靠数据传输不仅在运输层，也在链路层、应用层出现</li>
+<li>可靠数据传输协议的下层协议也许是不可靠的，比如运输层</li>
+<li><strong>开发任何协议的第一步往往是选个好名字！</strong></li>
+<li>基于重传机制的可靠数据传输协议 自动重传请求 Automatic Repeat reQuest, ARQ<ul>
+<li>肯定确认 positive acknowledgement, <strong>ACK</strong>，用1表示</li>
+<li>否定确认 negative acknowledgement, <strong>NAK</strong>,用0表示</li>
+<li>ARQ包括：差错检测、接收方反馈、重传</li>
+</ul>
+</li>
+<li>考虑ACK,NAK分组受损的可能性：<ul>
+<li>解决之道在于：当不知道其分组是否受损时，直接重新发送分组，但在刚开始发送分组之前应对所有分组进行编号，即将数据分组的序号（sequence number）放在该字段</li>
+<li>重新发送的分组称为冗余分组 duplicate packet</li>
+</ul>
+</li>
+<li>发送方负责检测和恢复丢包工作<ul>
+<li>发送方至少需要等待：发送方与接受方之间的一个往返时延，这其中包括路由器等的缓冲，加上接受方处理一个分组所需要的时间</li>
+<li>超过等待时间，则认为分组已经丢包，重传分组，这可能会产生冗余数据分组，但通过ACK或者NAK分组中的序号可以解决</li>
+<li>基于时间的重传，需要一个倒计时定时器countdown timer</li>
+<li>发送方的主要动作是每次发送一个分组，便启动一个计时器；响应计时器中断；终止计时器</li>
+</ul>
+</li>
+<li>可靠数据传输协议最初从停等协议出发，再发送一个分组，知道确认后，再发送下一个分组，利用率低，由此引入流水线技术</li>
+<li>流水线技术：<ol>
+<li>增加序号范围，因为序号再发送中的唯一性</li>
+<li>协议的发送方和接收方需要缓存多个分组</li>
+<li>所需序号范围和对缓冲的要求取决于数据传输协议如何处理丢失、损坏及延时过大的分组。</li>
+<li>流水线技术中解决差错恢复有两种方法：回退N步，Go-Back-N，GBN；选择重传，Selective Repeat，SR</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/01/07/%E8%BF%90%E8%BE%93%E5%B1%8220201.7/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-运输层2020.1.3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -461,6 +1111,7 @@
 </li>
 </ul>
 </li>
+<li>在while循环内，如果嵌套循环的话，注意break，及时退出一级循环</li>
 </ul>
 
       
@@ -1116,7 +1767,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 John Doe
+    		&copy; 2020 Lionheart Dong
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
